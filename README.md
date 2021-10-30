@@ -22,3 +22,29 @@ RUN version=$(php -r "echo PHP_MAJOR_VERSION.PHP_MINOR_VERSION;") \
  && mv /tmp/blackfire/blackfire-\*.so $(php -r "echo ini_get ('extension_dir');")/blackfire.so \
  && printf "extension=blackfire.so\nblackfire.agent_socket=tcp://blackfire:8307\n" > $PHP_INI_DIR/conf.d/blackfire.ini \
  && rm -rf /tmp/blackfire /tmp/blackfire-probe.tar.gz
+
+# faire builder docker, pour ajouté la sonde blackfire
+
+docker-compose build
+
+# stop container docker
+
+docker-compose stop
+
+# start docker
+
+docker-compose up -d --build
+
+# ajoute les Informations d'identification personnelles de Blackfire dans un fichier .env
+
+# déclarer l'agent Blackfire en tant que service
+
+blackfire:
+image: blackfire/blackfire:2
+container*name: blackfire_docker_symfony
+ports: ["8307"]
+environment: # Exposes BLACKFIRE*\* environment variables from the host
+BLACKFIRE_SERVER_ID: $BLACKFIRE_SERVER_ID
+BLACKFIRE_SERVER_TOKEN: $BLACKFIRE_SERVER_TOKEN
+BLACKFIRE_CLIENT_ID: $BLACKFIRE_CLIENT_ID
+BLACKFIRE_CLIENT_TOKEN: $BLACKFIRE_CLIENT_TOKEN
