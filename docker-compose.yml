@@ -44,7 +44,7 @@ services:
       - dev
 
   blackfire:
-    image: blackfire/blackfire:2
+    image: blackfire/blackfire
     container_name: blackfire_docker_symfony
     ports: ["8307"]
     environment:

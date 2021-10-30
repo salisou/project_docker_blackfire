@@ -52,3 +52,5 @@ BLACKFIRE_CLIENT_TOKEN: $BLACKFIRE_CLIENT_TOKEN
 # Validez le ficher.env
 
 docker-compose --env-file .env up -d
+
+docker-compose exec blackfire blackfire curl https:curl//www
